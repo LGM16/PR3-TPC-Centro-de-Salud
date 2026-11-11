@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Entidades
 {
-    internal class Turno
+    public class Turno
     {
     }
 }
