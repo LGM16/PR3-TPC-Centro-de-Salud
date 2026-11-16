@@ -14,7 +14,6 @@ namespace Dominio.Entidades
         public string Dni { get; set; }
         public string Email { get; set; }
         public string Telefono { get; set; }
-        public DateTime FechaNacimiento { get; set; }
         public bool Activo { get; set; } = true;
 
         public string NombreCompleto
