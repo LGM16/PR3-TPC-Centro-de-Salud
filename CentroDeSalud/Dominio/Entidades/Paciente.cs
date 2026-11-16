@@ -8,8 +8,7 @@ namespace Dominio.Entidades
 {
     public class Paciente : Persona
     {
-        public string ObraSocial { get; set; }
-        public string NumeroAfiliado { get; set; }
-        public List<Turno> Turnos { get; set; } = new List<Turno>();
+        public DateTime FechaNacimiento { get; set; }
+        public string Direccion { get; set; }
     }
 }

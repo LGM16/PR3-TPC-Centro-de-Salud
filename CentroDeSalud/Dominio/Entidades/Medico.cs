@@ -11,10 +11,8 @@ namespace Dominio.Entidades
     {
         public string Matricula { get; set; }
 
-        public int TurnoTrabajoId { get; set; }
         public TurnoTrabajo TurnoTrabajo { get; set; }
 
         public List<Especialidad> Especialidades { get; set; } = new List<Especialidad>();
-        public List<Turno> Turnos { get; set; } = new List<Turno>();
     }
 }
