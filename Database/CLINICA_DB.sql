@@ -66,12 +66,14 @@ CREATE TABLE MEDICOS (
     Id             INT IDENTITY(1,1) NOT NULL,
     Nombre         VARCHAR(50)       NOT NULL,
     Apellido       VARCHAR(50)       NOT NULL,
+    DNI            VARCHAR(10)       NOT NULL,
     Matricula      VARCHAR(20)       NOT NULL,
     Email          VARCHAR(100)      NULL,
     Telefono       VARCHAR(30)       NULL,
     IdTurnoTrabajo INT               NOT NULL,
     Activo         BIT               NOT NULL CONSTRAINT DF_MEDICOS_Activo DEFAULT 1,
     CONSTRAINT PK_MEDICOS PRIMARY KEY (Id),
+    CONSTRAINT UQ_MEDICOS_DNI UNIQUE (DNI),
     CONSTRAINT UQ_MEDICOS_Matricula UNIQUE (Matricula),
     CONSTRAINT FK_MEDICOS_TURNOS_TRABAJO FOREIGN KEY (IdTurnoTrabajo) REFERENCES TURNOS_TRABAJO (Id)
 );
@@ -201,13 +203,13 @@ INSERT INTO TURNOS_TRABAJO (Descripcion, HoraEntrada, HoraSalida) VALUES
     ('Tarde',      '13:00', '19:00'),   -- 2
     ('Intermedio', '10:00', '16:00');   -- 3
 
-INSERT INTO MEDICOS (Nombre, Apellido, Matricula, Email, Telefono, IdTurnoTrabajo) VALUES
-    ('Laura',    'Fernández', 'MN-10234', 'lfernandez@example.com', '11-4521-3344', 1),  -- 1
-    ('Martín',   'Gómez',     'MN-11872', 'mgomez@example.com',     '11-4877-1290', 2),  -- 2
-    ('Sofía',    'Ramírez',   'MN-12056', 'sramirez@example.com',   NULL,           3),  -- 3
-    ('Diego',    'Sosa',      'MN-13490', 'dsosa@example.com',      '11-4002-8811', 1),  -- 4
-    ('Valeria',  'Torres',    'MN-14211', NULL,                     '11-4390-7765', 2),  -- 5
-    ('Gustavo',  'Pereyra',   'MN-15003', 'gpereyra@example.com',   NULL,           3);  -- 6
+INSERT INTO MEDICOS (Nombre, Apellido, DNI, Matricula, Email, Telefono, IdTurnoTrabajo) VALUES
+    ('Laura',    'Fernández', '24567890', 'MN-10234', 'lfernandez@example.com', '11-4521-3344', 1),  -- 1
+    ('Martín',   'Gómez',     '27123456', 'MN-11872', 'mgomez@example.com',     '11-4877-1290', 2),  -- 2
+    ('Sofía',    'Ramírez',   '31456789', 'MN-12056', 'sramirez@example.com',   NULL,           3),  -- 3
+    ('Diego',    'Sosa',      '29876543', 'MN-13490', 'dsosa@example.com',      '11-4002-8811', 1),  -- 4
+    ('Valeria',  'Torres',    '33222111', 'MN-14211', NULL,                     '11-4390-7765', 2),  -- 5
+    ('Gustavo',  'Pereyra',   '26345678', 'MN-15003', 'gpereyra@example.com',   NULL,           3);  -- 6
 
 -- Hay especialidades con más de un médico (para probar las 3 sugerencias)
 -- y médicos con más de una especialidad (relación N a N).
