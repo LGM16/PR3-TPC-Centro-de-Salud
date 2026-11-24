@@ -72,6 +72,53 @@ namespace Negocio
             }
         }
 
+        // Baja logica (activo = false) o reactivacion (activo = true). Nunca se borra la fila.
+        public void cambiarEstado(int id, bool activo)
+        {
+            if (!activo)
+            {
+                AccesoDatos datosValidacion = new AccesoDatos();
+
+                try
+                {
+                    datosValidacion.setearConsulta(
+                        "SELECT COUNT(*) AS CantidadMedicos FROM MEDICOS WHERE IdTurnoTrabajo = @Id AND Activo = 1"
+                    );
+
+                    datosValidacion.setearParametro("@Id", id);
+                    datosValidacion.ejecutarLectura();
+
+                    if (datosValidacion.Lector.Read())
+                    {
+                        int cantidad = (int)datosValidacion.Lector["CantidadMedicos"];
+
+                        if (cantidad > 0)
+                        {
+                            throw new ArgumentException("El turno tiene médicos activos asociados.");
+                        }
+                    }
+                }
+                finally
+                {
+                    datosValidacion.cerrarConexion();
+                }
+
+            }
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE TURNOS_TRABAJO SET Activo = @Activo WHERE Id = @Id");
+                datos.setearParametro("@Activo", activo);
+                datos.setearParametro("@Id", id);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         // Las reglas viven en Negocio: la pantalla ayuda, pero no es la que manda.
         // La base tambien las frena con CHECK, pero asi el usuario recibe un mensaje claro.
         private void validar(TurnoTrabajo turno)

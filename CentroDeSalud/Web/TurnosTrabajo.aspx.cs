@@ -34,18 +34,33 @@ namespace Web
             int id = int.Parse(e.CommandArgument.ToString());
             try
             {
-                if (e.CommandName == "Editar")
+                switch (e.CommandName)
                 {
-                    TurnoTrabajo turno = negocio.listar().Find(x => x.Id == id);
-                    if (turno != null)
-                    {
-                        hfId.Value = turno.Id.ToString();
-                        txtDescripcion.Text = turno.Descripcion;
-                        txtEntrada.Text = turno.HoraEntrada.ToString(@"hh\:mm");
-                        txtSalida.Text = turno.HoraSalida.ToString(@"hh\:mm");
-                        lblFormulario.Text = "Modificar turno de trabajo";
-                    }
+                    case "Editar":
+                        TurnoTrabajo turno = negocio.listar().Find(x => x.Id == id);
+                        if (turno != null)
+                        {
+                            hfId.Value = turno.Id.ToString();
+                            txtDescripcion.Text = turno.Descripcion;
+                            txtEntrada.Text = turno.HoraEntrada.ToString(@"hh\:mm");
+                            txtSalida.Text = turno.HoraSalida.ToString(@"hh\:mm");
+                            lblFormulario.Text = "Modificar turno de trabajo";
+                        }
+                        break;
+                    case "Baja":
+                        negocio.cambiarEstado(id, false);
+                        cargarGrilla();
+                        break;
+                    case "Alta":
+                        negocio.cambiarEstado(id, true);
+                        cargarGrilla();
+                        break;
                 }
+            }
+            catch (ArgumentException ex)
+            {
+                // Regla de Negocio (por ejemplo, hay medicos que usan este turno): se le muestra al usuario.
+                mostrarError(ex.Message);
             }
             catch (Exception)
             {
