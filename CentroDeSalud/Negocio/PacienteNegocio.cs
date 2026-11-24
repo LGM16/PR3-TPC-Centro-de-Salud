@@ -115,10 +115,14 @@ namespace Negocio
             if (!string.IsNullOrWhiteSpace(p.Direccion) && p.Direccion.Trim().Length > 100)
                 throw new ArgumentException("La dirección no puede superar los 100 caracteres.");
 
-            // TODO(human): validar los formatos. Lanzar ArgumentException con un mensaje claro si:
-            //   1) el DNI no tiene entre 7 y 8 digitos (solo numeros)
-            //   2) el email no tiene un formato valido (algo@dominio.ext)
-            //   3) la fecha de nacimiento es futura (comparar con DateTime.Today)
+            if (!Regex.IsMatch(p.Dni.Trim(), @"^[0-9]{7,8}$"))
+                throw new ArgumentException("El DNI debe tener entre 7 y 8 dígitos.");
+
+            if (!Regex.IsMatch(p.Email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                throw new ArgumentException("El email no tiene un formato válido.");
+
+            if (p.FechaNacimiento.Date > DateTime.Today)
+                throw new ArgumentException("La fecha de nacimiento no puede ser futura.");
 
             // DNI unico. "Id <> @Id" evita que un paciente choque consigo mismo al modificarlo.
             AccesoDatos datos = new AccesoDatos();
