@@ -1,17 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using Negocio;
 
 namespace Web
 {
-    public partial class TurnosTrabajo : System.Web.UI.Page
+    public partial class TurnosTrabajo : Page
     {
+        private TurnoTrabajoNegocio negocio = new TurnoTrabajoNegocio();
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+                cargarGrilla();
+        }
 
+        private void cargarGrilla()
+        {
+            try
+            {
+                gvTurnosTrabajo.DataSource = negocio.listar();
+                gvTurnosTrabajo.DataBind();
+            }
+            catch (Exception)
+            {
+                mostrarError("No se pudo leer la lista de turnos de trabajo.");
+            }
+        }
+
+        private void mostrarError(string mensaje)
+        {
+            lblMensaje.Text = mensaje;
+            lblMensaje.Visible = true;
         }
     }
 }
