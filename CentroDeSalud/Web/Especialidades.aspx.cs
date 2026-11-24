@@ -21,7 +21,11 @@ namespace Web
         {
             try
             {
-                gvEspecialidades.DataSource = negocio.listar();
+                List<Especialidad> lista = negocio.listar();
+                string filtro = txtFiltro.Text.Trim().ToUpper();
+                if (filtro != "")
+                    lista = lista.FindAll(x => x.Descripcion.ToUpper().Contains(filtro));
+                gvEspecialidades.DataSource = lista;
                 gvEspecialidades.DataBind();
             }
             catch (Exception)
@@ -104,6 +108,17 @@ namespace Web
             txtDescripcion.Text = string.Empty;
             lblFormulario.Text = "Nueva especialidad";
             lblMensaje.Visible = false;
+        }
+
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            cargarGrilla();
+        }
+
+        protected void btnLimpiarFiltro_Click(object sender, EventArgs e)
+        {
+            txtFiltro.Text = string.Empty;
+            cargarGrilla();
         }
 
         private void mostrarError(string mensaje)

@@ -56,8 +56,18 @@
             </div>
         </div>
 
+        <asp:Panel runat="server" DefaultButton="btnFiltrar" CssClass="row g-2 mb-3">
+            <div class="col-md-6">
+                <asp:TextBox ID="txtFiltro" runat="server" CssClass="form-control" placeholder="Buscar por nombre, apellido o DNI..."></asp:TextBox>
+            </div>
+            <div class="col-md-6">
+                <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-outline-primary" CausesValidation="false" OnClick="btnFiltrar_Click" />
+                <asp:Button ID="btnLimpiarFiltro" runat="server" Text="Limpiar" CssClass="btn btn-outline-secondary" CausesValidation="false" OnClick="btnLimpiarFiltro_Click" />
+            </div>
+        </asp:Panel>
+
         <asp:GridView ID="gvPacientes" runat="server" AutoGenerateColumns="false" DataKeyNames="Id"
-            CssClass="table table-striped" OnRowCommand="gvPacientes_RowCommand">
+            CssClass="table table-striped" EmptyDataText="No se encontraron resultados." OnRowCommand="gvPacientes_RowCommand">
             <Columns>
                 <asp:BoundField HeaderText="Apellido" DataField="Apellido" />
                 <asp:BoundField HeaderText="Nombre" DataField="Nombre" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio.Entidades;
@@ -20,7 +21,7 @@ namespace Web
         {
             try
             {
-                gvPacientes.DataSource = negocio.listar();
+                gvPacientes.DataSource = filtrar(negocio.listar());
                 gvPacientes.DataBind();
             }
             catch (Exception)
@@ -129,6 +130,31 @@ namespace Web
             txtDireccion.Text = string.Empty;
             lblFormulario.Text = "Nuevo paciente";
             lblMensaje.Visible = false;
+        }
+
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            cargarGrilla();
+        }
+
+        protected void btnLimpiarFiltro_Click(object sender, EventArgs e)
+        {
+            txtFiltro.Text = string.Empty;
+            cargarGrilla();
+        }
+
+        // Devuelve solo los pacientes que coinciden con el texto del filtro (nombre, apellido o DNI).
+        private List<Paciente> filtrar(List<Paciente> lista)
+        {
+            string filtro = txtFiltro.Text.Trim().ToUpper();
+            if (filtro == "")
+                return lista;
+
+            return lista.FindAll(x =>
+                x.Nombre.ToUpper().Contains(filtro) ||
+                x.Apellido.ToUpper().Contains(filtro) ||
+                x.Dni.ToUpper().Contains(filtro)
+            );
         }
 
         private void mostrarError(string mensaje)

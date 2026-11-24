@@ -85,5 +85,12 @@ namespace Web
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvEspecialidades;
+
+        protected global::System.Web.UI.WebControls.TextBox txtFiltro;
+
+        protected global::System.Web.UI.WebControls.Button btnFiltrar;
+
+        protected global::System.Web.UI.WebControls.Button btnLimpiarFiltro;
+
     }
 }

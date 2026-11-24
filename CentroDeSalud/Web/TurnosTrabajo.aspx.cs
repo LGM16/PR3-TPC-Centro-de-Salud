@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio.Entidades;
@@ -20,7 +21,11 @@ namespace Web
         {
             try
             {
-                gvTurnosTrabajo.DataSource = negocio.listar();
+                List<TurnoTrabajo> lista = negocio.listar();
+                string filtro = txtFiltro.Text.Trim().ToUpper();
+                if (filtro != "")
+                    lista = lista.FindAll(x => x.Descripcion.ToUpper().Contains(filtro));
+                gvTurnosTrabajo.DataSource = lista;
                 gvTurnosTrabajo.DataBind();
             }
             catch (Exception)
@@ -122,6 +127,17 @@ namespace Web
             txtSalida.Text = string.Empty;
             lblFormulario.Text = "Nuevo turno de trabajo";
             lblMensaje.Visible = false;
+        }
+
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            cargarGrilla();
+        }
+
+        protected void btnLimpiarFiltro_Click(object sender, EventArgs e)
+        {
+            txtFiltro.Text = string.Empty;
+            cargarGrilla();
         }
 
         private void mostrarError(string mensaje)
