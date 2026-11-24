@@ -5,8 +5,35 @@
 
         <asp:Label ID="lblMensaje" runat="server" Visible="false" CssClass="alert alert-danger d-block"></asp:Label>
 
+        <asp:HiddenField ID="hfId" runat="server" Value="0" />
+        <asp:Label ID="lblFormulario" runat="server" CssClass="form-label fw-bold d-block" Text="Nuevo turno de trabajo"></asp:Label>
+        <div class="row g-2 align-items-start mb-4">
+            <div class="col-md-4">
+                <asp:Label runat="server" AssociatedControlID="txtDescripcion" CssClass="form-label" Text="Descripción"></asp:Label>
+                <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="rfvDescripcion" runat="server" ControlToValidate="txtDescripcion"
+                    ErrorMessage="La descripción es obligatoria." CssClass="text-danger" Display="Dynamic"></asp:RequiredFieldValidator>
+            </div>
+            <div class="col-md-2">
+                <asp:Label runat="server" AssociatedControlID="txtEntrada" CssClass="form-label" Text="Entrada"></asp:Label>
+                <asp:TextBox ID="txtEntrada" runat="server" CssClass="form-control" TextMode="Time"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="rfvEntrada" runat="server" ControlToValidate="txtEntrada"
+                    ErrorMessage="La entrada es obligatoria." CssClass="text-danger" Display="Dynamic"></asp:RequiredFieldValidator>
+            </div>
+            <div class="col-md-2">
+                <asp:Label runat="server" AssociatedControlID="txtSalida" CssClass="form-label" Text="Salida"></asp:Label>
+                <asp:TextBox ID="txtSalida" runat="server" CssClass="form-control" TextMode="Time"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="rfvSalida" runat="server" ControlToValidate="txtSalida"
+                    ErrorMessage="La salida es obligatoria." CssClass="text-danger" Display="Dynamic"></asp:RequiredFieldValidator>
+            </div>
+            <div class="col-md-4 pt-4">
+                <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" CausesValidation="false" OnClick="btnCancelar_Click" />
+            </div>
+        </div>
+
         <asp:GridView ID="gvTurnosTrabajo" runat="server" AutoGenerateColumns="false" DataKeyNames="Id"
-            CssClass="table table-striped">
+            CssClass="table table-striped" OnRowCommand="gvTurnosTrabajo_RowCommand">
             <Columns>
                 <asp:BoundField HeaderText="Descripción" DataField="Descripcion" />
                 <asp:TemplateField HeaderText="Entrada">
@@ -22,6 +49,12 @@
                 <asp:TemplateField HeaderText="Estado">
                     <ItemTemplate>
                         <%# (bool)Eval("Activo") ? "Activo" : "Inactivo" %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <asp:LinkButton runat="server" CommandName="Editar" CommandArgument='<%# Eval("Id") %>'
+                            CssClass="btn btn-sm btn-outline-primary" CausesValidation="false" Text="Editar" />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
