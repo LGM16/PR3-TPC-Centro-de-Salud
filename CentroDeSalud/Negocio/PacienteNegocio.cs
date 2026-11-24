@@ -77,6 +77,23 @@ namespace Negocio
             }
         }
 
+        // Baja logica (activo = false) o reactivacion (activo = true). Nunca se borra la fila.
+        public void cambiarEstado(int id, bool activo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE PACIENTES SET Activo = @Activo WHERE Id = @Id");
+                datos.setearParametro("@Activo", activo);
+                datos.setearParametro("@Id", id);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         private void cargarParametros(AccesoDatos datos, Paciente p)
         {
             datos.setearParametro("@Nombre", p.Nombre.Trim());

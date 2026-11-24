@@ -75,6 +75,9 @@
                     <ItemTemplate>
                         <asp:LinkButton runat="server" CommandName="Editar" CommandArgument='<%# Eval("Id") %>'
                             CssClass="btn btn-sm btn-outline-primary" CausesValidation="false" Text="Editar" />
+                        <asp:LinkButton runat="server" CommandName='<%# (bool)Eval("Activo") ? "Baja" : "Alta" %>'
+                            CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-sm btn-outline-secondary" CausesValidation="false"
+                            Text='<%# (bool)Eval("Activo") ? "Dar de baja" : "Reactivar" %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

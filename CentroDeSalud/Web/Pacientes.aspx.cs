@@ -34,22 +34,32 @@ namespace Web
             int id = int.Parse(e.CommandArgument.ToString());
             try
             {
-                if (e.CommandName == "Editar")
+                switch (e.CommandName)
                 {
-                    Paciente p = negocio.listar().Find(x => x.Id == id);
-                    if (p != null)
-                    {
-                        hfId.Value = p.Id.ToString();
-                        txtNombre.Text = p.Nombre;
-                        txtApellido.Text = p.Apellido;
-                        txtDni.Text = p.Dni;
-                        // El control de fecha solo acepta el formato yyyy-MM-dd.
-                        txtFecha.Text = p.FechaNacimiento.ToString("yyyy-MM-dd");
-                        txtEmail.Text = p.Email;
-                        txtTelefono.Text = p.Telefono ?? string.Empty;
-                        txtDireccion.Text = p.Direccion ?? string.Empty;
-                        lblFormulario.Text = "Modificar paciente";
-                    }
+                    case "Editar":
+                        Paciente p = negocio.listar().Find(x => x.Id == id);
+                        if (p != null)
+                        {
+                            hfId.Value = p.Id.ToString();
+                            txtNombre.Text = p.Nombre;
+                            txtApellido.Text = p.Apellido;
+                            txtDni.Text = p.Dni;
+                            // El control de fecha solo acepta el formato yyyy-MM-dd.
+                            txtFecha.Text = p.FechaNacimiento.ToString("yyyy-MM-dd");
+                            txtEmail.Text = p.Email;
+                            txtTelefono.Text = p.Telefono ?? string.Empty;
+                            txtDireccion.Text = p.Direccion ?? string.Empty;
+                            lblFormulario.Text = "Modificar paciente";
+                        }
+                        break;
+                    case "Baja":
+                        negocio.cambiarEstado(id, false);
+                        cargarGrilla();
+                        break;
+                    case "Alta":
+                        negocio.cambiarEstado(id, true);
+                        cargarGrilla();
+                        break;
                 }
             }
             catch (Exception)
