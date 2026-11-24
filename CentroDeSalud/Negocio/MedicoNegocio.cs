@@ -75,6 +75,45 @@ namespace Negocio
             return m;
         }
 
+        // Baja logica (activo = false) o reactivacion (activo = true). Nunca se borra la fila.
+        public void cambiarEstado(int id, bool activo)
+        {
+            if (!activo)
+            {
+                if (!activo)
+                {
+                    AccesoDatos datosValidacion = new AccesoDatos();
+                    try
+                    {
+                        datosValidacion.setearConsulta("SELECT COUNT(*) FROM TURNOS WHERE IdMedico = @Id AND IdEstado IN (1, 2) AND Fecha >= CAST(GETDATE() AS DATE)");
+                        datosValidacion.setearParametro("@Id", id);
+
+                        int cantidad = Convert.ToInt32(datosValidacion.ejecutarEscalar());
+
+                        if (cantidad > 0)
+                            throw new ArgumentException("No se puede dar de baja al médico porque tiene turnos pendientes.");
+                    }
+                    finally
+                    {
+                        datosValidacion.cerrarConexion();
+                    }
+                }
+            }
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE MEDICOS SET Activo = @Activo WHERE Id = @Id");
+                datos.setearParametro("@Activo", activo);
+                datos.setearParametro("@Id", id);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         // El medico y sus especialidades se guardan JUNTOS, en una transaccion: o se graba todo o no se graba nada.
         // Si fallara un INSERT de especialidad, no puede quedar un medico guardado sin especialidades.
         public void agregar(Medico nuevo)

@@ -104,6 +104,21 @@ namespace Web
                         lblFormulario.Text = "Modificar médico";
                     }
                 }
+                else if (e.CommandName == "Baja")
+                {
+                    negocio.cambiarEstado(id, false);
+                    cargarGrilla();
+                }
+                else if (e.CommandName == "Alta")
+                {
+                    negocio.cambiarEstado(id, true);
+                    cargarGrilla();
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                // Regla de Negocio (por ejemplo, tiene turnos pendientes): se le muestra al usuario.
+                mostrarError(ex.Message);
             }
             catch (Exception)
             {
