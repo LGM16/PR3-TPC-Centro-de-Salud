@@ -16,6 +16,12 @@ namespace Web
 
         protected global::System.Web.UI.WebControls.Label lblMensaje;
 
+        protected global::System.Web.UI.WebControls.TextBox txtFiltro;
+
+        protected global::System.Web.UI.WebControls.Button btnFiltrar;
+
+        protected global::System.Web.UI.WebControls.Button btnLimpiarFiltro;
+
         protected global::System.Web.UI.WebControls.GridView gvMedicos;
 
         protected global::System.Web.UI.WebControls.HiddenField hfId;
