@@ -18,6 +18,13 @@ namespace Web
 
         protected global::System.Web.UI.WebControls.GridView gvTurnosTrabajo;
 
+        protected global::System.Web.UI.WebControls.TextBox txtFiltro;
+
+        protected global::System.Web.UI.WebControls.Button btnFiltrar;
+
+        protected global::System.Web.UI.WebControls.Button btnLimpiarFiltro;
+
+
         protected global::System.Web.UI.WebControls.HiddenField hfId;
 
         protected global::System.Web.UI.WebControls.Label lblFormulario;

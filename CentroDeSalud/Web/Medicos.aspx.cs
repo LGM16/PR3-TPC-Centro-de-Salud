@@ -47,7 +47,7 @@ namespace Web
         {
             try
             {
-                gvMedicos.DataSource = negocio.listar();
+                gvMedicos.DataSource = filtrar(negocio.listar());
                 gvMedicos.DataBind();
             }
             catch (Exception)
@@ -193,6 +193,32 @@ namespace Web
             lblMensaje.Visible = false;
             // Se recargan las listas para sacar los items "(inactivo/a)" que pudo agregar la edicion.
             cargarCombos();
+        }
+
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            cargarGrilla();
+        }
+
+        protected void btnLimpiarFiltro_Click(object sender, EventArgs e)
+        {
+            txtFiltro.Text = string.Empty;
+            cargarGrilla();
+        }
+
+        // Devuelve solo los medicos que coinciden con el texto del filtro (nombre, apellido o especialidad).
+        private List<Medico> filtrar(List<Medico> lista)
+        {
+            string filtro = txtFiltro.Text.Trim().ToUpper();
+            if (filtro == "")
+                return lista;
+
+            return lista.FindAll(x =>
+                x.Nombre.ToUpper().Contains(filtro) ||
+                x.Apellido.ToUpper().Contains(filtro) ||
+                x.Especialidades.Exists(e => e.Descripcion.ToUpper().Contains(filtro))
+            );
+            return lista;
         }
 
         private void mostrarError(string mensaje)
