@@ -14,7 +14,5 @@ namespace Dominio.Entidades
         public TimeSpan HoraEntrada { get; set; }
         public TimeSpan HoraSalida { get; set; }
         public bool Activo { get; set; } = true;
-
-        public List<Medico> Medicos { get; set; } = new List<Medico>();
     }
 }
